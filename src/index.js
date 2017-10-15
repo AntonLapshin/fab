@@ -2,12 +2,13 @@ import "./style.scss";
 
 const COMMON_CSS = `
 .fab-wrap {
-  box-sizing: border-box;
   margin: 25px;
   position: fixed;
   z-index: 999999;
   right: 0;
   bottom: 0; }
+  .fab-wrap > .fab-btn {
+    margin-bottom: 0 !important; }
   .fab-wrap .fab-btn {
     height: 52px;
     width: 52px;
@@ -16,12 +17,18 @@ const COMMON_CSS = `
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.28);
     cursor: pointer;
     position: relative;
-    line-height: 46px;
+    line-height: 52px;
     text-align: center;
     transition: all ease 0.2s;
-    margin-bottom: 7px; }
-    .fab-wrap .fab-btn.fab-main {
-      margin-bottom: 0; }
+    margin-bottom: -10px; }
+    .fab-wrap .fab-btn > svg {
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      display: inline-block; }
     .fab-wrap .fab-btn .fab-children {
       visibility: hidden;
       position: absolute;
@@ -29,25 +36,23 @@ const COMMON_CSS = `
       animation: 0.5s out; }
     .fab-wrap .fab-btn:after {
       content: attr(data-fab-label);
+      box-sizing: border-box;
+      font-size: 14px;
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+      transition: all ease 0.2s;
       opacity: 0;
       border-radius: 9px;
-      padding: 0 60px 0 1em;
+      padding: 0 50px 0 1em;
       text-align: left;
-      font-size: 14px;
-      pointer-events: none;
-      position: absolute;
       right: 50%;
-      line-height: 52px;
-      width: 100px;
-      z-index: -1;
-      transition: all ease 0.2s; }
+      line-height: 52px; }
     .fab-wrap .fab-btn:hover .fab-children {
       visibility: visible;
       animation: 0.5s in; }
     .fab-wrap .fab-btn:hover:after {
       opacity: 1; }
-    .fab-wrap .fab-btn svg {
-      vertical-align: middle; }
 
 @keyframes in {
   0% {
@@ -68,16 +73,17 @@ const COMMON_CSS = `
 
 const DEFAULTS = {
   bgColor: "#0083ca",
-  hoverBgColor: "gold",
+  hoverBgColor: "#4acc08",
   color: "white",
-  labelBgColor: "rgba(0, 0, 0, 0.02)",
-  labelColor: "#666"
+  labelBgColor: "rgba(239, 239, 239, 0.71)",
+  labelColor: "#3a3a3a"
 };
 
 const getCustomCSS = opts => {
   return `
 #${opts.id} .fab-btn {
   background: ${opts.bgColor};
+  color: ${opts.color};
 }
 #${opts.id} .fab-btn:hover {
   background: ${opts.hoverBgColor};
@@ -93,8 +99,9 @@ const getCustomCSS = opts => {
 };
 
 const render = opts => {
+  const customClass = opts.customClass || "";
   return `
-    <div id="${opts.id}" class="fab-wrap">
+    <div id="${opts.id}" class="fab-wrap ${customClass}">
       ${renderBtn(opts.btn)}
     </div>
   `;
@@ -102,9 +109,10 @@ const render = opts => {
 
 const renderBtn = btn => {
   btn.id = "fabbtn_" + _uid++;
+  const label = btn.label ? ` data-fab-label="${btn.label}"` : "";
   return `
-    <div id=${btn.id} class="fab-btn" data-fab-label="${btn.label}">
-      ${btn.svg}
+    <div id=${btn.id} class="fab-btn"${label}>
+      ${btn.html}
       ${btn.children ? renderChildren(btn.children) : ""}
     </div>  
   `;
@@ -113,7 +121,10 @@ const renderBtn = btn => {
 const renderChildren = children => {
   return `
     <div class="fab-children">
-      ${children.reverse().map(btn => renderBtn(btn)).join("")}
+      ${children
+        .reverse()
+        .map(btn => renderBtn(btn))
+        .join("")}
     </div>  
   `;
 };

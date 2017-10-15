@@ -8,7 +8,8 @@
     "start": "./node_modules/.bin/webpack-dev-server --open",
     "build-es6": "./node_modules/.bin/rollup -c rollup.es6.config.js",
     "build-es5": "./node_modules/.bin/rollup -c rollup.es5.config.js",
-    "commit": "./node_modules/.bin/git-cz"
+    "commit": "./node_modules/.bin/git-cz",
+    "deploy": "./node_modules/.bin/gh-pages -d bin"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-latest": "^6.24.1",
     "babel-register": "^6.24.1",
+    "gh-pages": "^1.0.0",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.1",
     "cz-conventional-changelog": "^2.0.0",
