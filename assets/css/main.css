@@ -2960,7 +2960,7 @@
 		}
 
 			#header > .logo a {
-				font-size: 2rem;
+				font-size: 2rem !important;
 				font-weight: 700;
 				color: #FFF;
 				text-decoration: none;
@@ -3008,7 +3008,8 @@
 		-webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
 		-moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
 		box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
-		border-radius: 4px;
+    border-radius: 4px;
+    overflow: hidden;
 	}
 
 	@media screen and (max-width: 980px) {
@@ -3173,4 +3174,8 @@
 				padding: 1rem 0 0.1rem 0 ;
 			}
 
-		}
+    }
+    
+    pre {
+      margin: 0;
+    }
