@@ -3173,3 +3173,7 @@
     pre {
       margin: 0;
     }
+
+    .wrapper.style1 .content {
+      border-top: 1px solid #eaeaea;
+    }

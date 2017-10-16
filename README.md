@@ -14,14 +14,14 @@ Pure JavaScript/CSS FAB implementation
 
 ## Install
 
-    <script src="js/fab.js"></script>
+    <script src="js/fab.es6.js"></script>
 
 ## Usage
 
 ### Single button
 
 ```js
-const fab1 = fab.init({
+const myFab = fab.init({
   btn: {
     label: "Home",
     html: `
@@ -40,7 +40,7 @@ const fab1 = fab.init({
 ### Multiple buttons
 
 ```js
-const fab1 = fab.init({
+const myFab = fab.init({
   btn: {
     html: "+",
     children: [
@@ -88,7 +88,7 @@ const fab1 = fab.init({
 ### Options
 
 ```js
-const fab1 = fab.init({
+const myFab = fab.init({
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",
@@ -112,9 +112,9 @@ const fab1 = fab.init({
 ### Methods: show/hide
 
 ```js
-fab1.hide();
+myFab.hide();
 setTimeout(()=>{
-  fab1.show();
+  myFab.show();
 }, 5000);
 ```
 
