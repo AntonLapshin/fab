@@ -1,5 +1,4 @@
 .fab-wrap {
-
   margin: 25px;
   position: fixed;
   z-index: 999999;
@@ -38,6 +37,8 @@
       position: absolute;
       bottom: 100%;
       animation: 0.5s out;
+      padding-bottom: 20px;
+      margin-bottom: -20px;      
     }
 
     &:after {
