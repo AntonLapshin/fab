@@ -37,7 +37,9 @@ const COMMON_CSS = `
       visibility: hidden;
       position: absolute;
       bottom: 100%;
-      animation: 0.5s out; }
+      animation: 0.5s out;
+      padding-bottom: 20px;
+      margin-bottom: -20px; }
     .fab-wrap .fab-btn:after {
       content: attr(data-fab-label);
       box-sizing: border-box;

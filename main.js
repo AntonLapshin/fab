@@ -1,8 +1,8 @@
 document.getElementById(
   "code_snippet_0"
-).innerText = `<script src="js/fab.js"></script>`;
+).innerText = `<script src="js/fab.es6.js"></script>`;
 
-document.getElementById("code_snippet_1").innerText = `const fab1 = fab.init({
+document.getElementById("code_snippet_1").innerText = `const myFab = fab.init({
   btn: {
     label: "Home",
     html: \`
@@ -18,7 +18,7 @@ document.getElementById("code_snippet_1").innerText = `const fab1 = fab.init({
 });
 `;
 
-document.getElementById("code_snippet_2").innerText = `const fab1 = fab.init({
+document.getElementById("code_snippet_2").innerText = `const myFab = fab.init({
   btn: {
     html: "+",
     children: [
@@ -63,7 +63,7 @@ document.getElementById("code_snippet_2").innerText = `const fab1 = fab.init({
 });
 `;
 
-document.getElementById("code_snippet_3").innerText = `const fab1 = fab.init({
+document.getElementById("code_snippet_3").innerText = `const myFab = fab.init({
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",
@@ -84,9 +84,9 @@ document.getElementById("code_snippet_3").innerText = `const fab1 = fab.init({
 });
 `;
 
-document.getElementById("code_snippet_4").innerText = `fab1.hide();
+document.getElementById("code_snippet_4").innerText = `myFab.hide();
 setTimeout(()=>{
-  fab1.show();
+  myFab.show();
 }, 5000);
 `;
 
