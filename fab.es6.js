@@ -152,7 +152,7 @@ const attachCallback = btn => {
         e.stopPropagation();
       });
     };
-    add("click");
+    add("mousedown");
     add("touchstart");
   }
   btn.children &&
