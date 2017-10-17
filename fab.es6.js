@@ -146,10 +146,14 @@ let _uid = 0;
 
 const attachCallback = btn => {
   if (btn.fn) {
-    document.getElementById(btn.id).addEventListener("click", e => {
-      btn.fn();
-      e.stopPropagation();
-    });
+    const add = type => {
+      document.getElementById(btn.id).addEventListener(type, e => {
+        btn.fn();
+        e.stopPropagation();
+      });
+    };
+    add("click");
+    add("touchstart");
   }
   btn.children &&
     btn.children.forEach(btn => {
@@ -167,8 +171,8 @@ const init = opts => {
   attachStyle(getCustomCSS(opts));
   const html = render(opts);
   document.body.insertAdjacentHTML("afterend", html);
-
   attachCallback(opts.btn);
+
   const el = document.getElementById(opts.id);
   return {
     hide: () => {
