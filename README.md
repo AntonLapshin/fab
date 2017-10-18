@@ -89,6 +89,7 @@ const myFab = fab.init({
 
 ```js
 const myFab = fab.init({
+  customClass: "my-class",
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",

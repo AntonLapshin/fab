@@ -11,9 +11,9 @@ const COMMON_CSS = `
   z-index: 999999;
   right: 0;
   bottom: 0; }
-  .fab-wrap > .fab-btn {
+  .fab-wrap > button {
     margin-bottom: 0 !important; }
-  .fab-wrap .fab-btn {
+  .fab-wrap button {
     height: 52px;
     width: 52px;
     display: inline-block;
@@ -77,7 +77,7 @@ const COMMON_CSS = `
     transform: translate(0px, -25px); } }
 `;
 
-const DEFAULTS = {
+const THEME = {
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",
@@ -85,91 +85,85 @@ const DEFAULTS = {
   labelColor: "#3a3a3a"
 };
 
-const getCustomCSS = opts => {
+const getTheme = theme => {
   return `
-#${opts.id} .fab-btn {
-  background: ${opts.bgColor};
-  color: ${opts.color};
+#${theme.id} button {
+  background: ${theme.bgColor};
+  color: ${theme.color};
 }
-#${opts.id} .fab-btn:hover {
-  background: ${opts.hoverBgColor};
+#${theme.id} buttonn:hover {
+  background: ${theme.hoverBgColor};
 }    
-#${opts.id} svg {
-  fill: ${opts.color};
+#${theme.id} svg {
+  fill: ${theme.color};
 } 
-#${opts.id} .fab-btn:after {
-  background: ${opts.labelBgColor};
-  color: ${opts.labelColor};
+#${theme.id} button:after {
+  background: ${theme.labelBgColor};
+  color: ${theme.labelColor};
 }
 `;
 };
 
 const render = opts => {
-  const customClass = opts.customClass || "";
   return `
-    <div id="${opts.id}" class="fab-wrap ${customClass}">
-      ${renderBtn(opts.btn)}
+    <div class="fab-wrap ${opts.className || ""}">
+      ${renderBtn(opts)}
     </div>
   `;
 };
 
 const renderBtn = btn => {
-  btn.id = "fabbtn_" + _uid++;
-  const label = btn.label ? ` data-fab-label="${btn.label}"` : "";
+  btn.id = btn.id || uid();
+  const label = btn.label ? ` data-fab-label=${btn.label}` : "";
   return `
-    <div id=${btn.id} class="fab-btn"${label}>
+    <button id=${btn.id} ${label}>
       ${btn.html}
-      ${btn.children ? renderChildren(btn.children) : ""}
-    </div>  
-  `;
-};
-
-const renderChildren = children => {
-  return `
-    <div class="fab-children">
-      ${children
-        .reverse()
-        .map(btn => renderBtn(btn))
-        .join("")}
-    </div>  
+      ${btn.btns
+        ? `
+          <div class="fab-btns">
+            ${btn.btns
+              .reverse()
+              .map(renderBtn)
+              .join("")}
+          </div>  
+        `
+        : ""}
+    </button>  
   `;
 };
 
 const attachStyle = styles => {
-  const styleTag = document.createElement("style");
-  styleTag.innerHTML = styles;
-  document.head.appendChild(styleTag);
+  const s = document.createElement("style");
+  s.innerHTML = styles;
+  document.head.appendChild(s);
 };
 
 let _attached = false;
 let _uid = 0;
+const uid = () => "fab_" + _uid++;
 
 const attachCallback = btn => {
-  if (btn.fn) {
+  btn.fn &&
     document.getElementById(btn.id).addEventListener("click", e => {
       btn.fn();
       e.stopPropagation();
     });
-  }
-  btn.children &&
-    btn.children.forEach(btn => {
-      attachCallback(btn);
-    });
+  btn.btns && btn.btns.forEach(attachCallback);
 };
 
-const init = opts => {
-  opts = Object.assign({}, DEFAULTS, opts);
+const init = (btn, theme) => {
   if (!_attached) {
     attachStyle(COMMON_CSS);
     _attached = true;
   }
-  opts.id = "fab_" + _uid++;
-  attachStyle(getCustomCSS(opts));
-  const html = render(opts);
+  btn.id = uid();
+  theme = Object.assign({}, THEME, theme);
+  attachStyle(getTheme(btn.id, theme));
+  const html = render(btn);
   document.body.insertAdjacentHTML("afterend", html);
+  attachCallback(btn);
 
-  attachCallback(opts.btn);
-  const el = document.getElementById(opts.id);
+  const el = document.getElementById(btn.id).parentNode;
   return {
     hide: () => {
       el.style.display = "none";

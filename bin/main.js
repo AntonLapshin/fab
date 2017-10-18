@@ -64,6 +64,7 @@ document.getElementById("code_snippet_2").innerText = `const myFab = fab.init({
 `;
 
 document.getElementById("code_snippet_3").innerText = `const myFab = fab.init({
+  customClass: "my-class",
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",

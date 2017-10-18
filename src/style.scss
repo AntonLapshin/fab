@@ -5,19 +5,19 @@
   right: 0;
   bottom: 0;
 
-  > .fab-btn {
+  > button {
     margin-bottom: 0 !important;
   }
 
-  .fab-btn {
+  button {
     height: 52px;
     width: 52px;
-    display: inline-block;
+    line-height: 52px;
+    display: block;
     border-radius: 50%;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.28);
     cursor: pointer;
     position: relative;
-    line-height: 52px;
     text-align: center;
     transition: all ease 0.2s;
     margin-bottom: -10px;
