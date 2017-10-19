@@ -73,7 +73,7 @@ const uid = () => "fab_" + _uid++;
 
 const attachCallback = btn => {
   btn.fn &&
-    document.getElementById(btn.id).addEventListener("click", e => {
+    document.getElementById(btn.id).addEventListener("mousedown", e => {
       btn.fn();
       e.stopPropagation();
     });
