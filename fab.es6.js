@@ -4,80 +4,9 @@
 	(factory((global.fab = global.fab || {})));
 }(this, (function (exports) { 'use strict';
 
-const COMMON_CSS = `
-.fab-wrap {
-  margin: 25px;
-  position: fixed;
-  z-index: 999999;
-  right: 0;
-  bottom: 0; }
-  .fab-wrap > .fab-btn {
-    margin-bottom: 0 !important; }
-  .fab-wrap .fab-btn {
-    height: 52px;
-    width: 52px;
-    display: inline-block;
-    border-radius: 50%;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.28);
-    cursor: pointer;
-    position: relative;
-    line-height: 52px;
-    text-align: center;
-    transition: all ease 0.2s;
-    margin-bottom: -10px; }
-    .fab-wrap .fab-btn > svg {
-      position: absolute;
-      margin: auto;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      display: inline-block; }
-    .fab-wrap .fab-btn .fab-children {
-      visibility: hidden;
-      position: absolute;
-      bottom: 100%;
-      animation: 0.5s out;
-      padding-bottom: 20px;
-      margin-bottom: -20px; }
-    .fab-wrap .fab-btn:after {
-      content: attr(data-fab-label);
-      box-sizing: border-box;
-      font-size: 14px;
-      position: absolute;
-      pointer-events: none;
-      z-index: -1;
-      transition: all ease 0.2s;
-      opacity: 0;
-      border-radius: 9px;
-      padding: 0 50px 0 1em;
-      text-align: left;
-      right: 50%;
-      line-height: 52px; }
-    .fab-wrap .fab-btn:hover .fab-children {
-      visibility: visible;
-      animation: 0.5s in; }
-    .fab-wrap .fab-btn:hover:after {
-      opacity: 1; }
+const COMMON_CSS = ".fab-wrap{margin:25px;position:fixed;z-index:999999;right:0;bottom:0}.fab-wrap>a{margin-bottom:0 !important}.fab-wrap a{text-decoration:none;height:52px;width:52px;line-height:52px;display:block;border-radius:50%;box-shadow:0 0 3px rgba(0,0,0,0.15),0 4px 8px rgba(0,0,0,0.28);cursor:pointer;position:relative;text-align:center;transition:all ease 0.2s;margin-bottom:8px}.fab-wrap a:hover:after{opacity:1}.fab-wrap a>svg{position:absolute;margin:auto;left:0;right:0;top:0;bottom:0;display:inline-block}.fab-wrap a+.fab-btns{visibility:hidden;position:absolute;bottom:100%;animation:0.5s out;padding-bottom:20px;margin-bottom:-20px}.fab-wrap a:after{content:attr(data-fab-label);box-sizing:border-box;font-size:14px;position:absolute;pointer-events:none;z-index:-1;transition:all ease 0.2s;opacity:0;border-radius:9px;padding:0 50px 0 1em;text-align:left;right:50%;line-height:52px}.fab-wrap:hover a+.fab-btns{visibility:visible;animation:0.5s in}@keyframes in{0%{opacity:0;transform:translate(0px, -25px)}100%{opacity:1;transform:translate(0px, 0px)}}@keyframes out{0%{opacity:1;transform:translate(0px, 0px)}100%{opacity:0;transform:translate(0px, -25px)}}";
 
-@keyframes in {
-  0% {
-    opacity: 0;
-    transform: translate(0px, -25px); }
-  100% {
-    opacity: 1;
-    transform: translate(0px, 0px); } }
-
-@keyframes out {
-  0% {
-    opacity: 1;
-    transform: translate(0px, 0px); }
-  100% {
-    opacity: 0;
-    transform: translate(0px, -25px); } }
-`;
-
-const DEFAULTS = {
+const THEME = {
   bgColor: "#0083ca",
   hoverBgColor: "#4acc08",
   color: "white",
@@ -85,95 +14,87 @@ const DEFAULTS = {
   labelColor: "#3a3a3a"
 };
 
-const getCustomCSS = opts => {
+const getTheme = (id, theme) => {
   return `
-#${opts.id} .fab-btn {
-  background: ${opts.bgColor};
-  color: ${opts.color};
+#${id} a {
+  background: ${theme.bgColor};
+  color: ${theme.color};
 }
-#${opts.id} .fab-btn:hover {
-  background: ${opts.hoverBgColor};
+#${id} a:hover {
+  background: ${theme.hoverBgColor};
 }    
-#${opts.id} svg {
-  fill: ${opts.color};
+#${id} svg {
+  fill: ${theme.color};
 } 
-#${opts.id} .fab-btn:after {
-  background: ${opts.labelBgColor};
-  color: ${opts.labelColor};
+#${id} a:after {
+  background: ${theme.labelBgColor};
+  color: ${theme.labelColor};
 }
 `;
 };
 
-const render = opts => {
-  const customClass = opts.customClass || "";
+const render = (id, btn) => {
   return `
-    <div id="${opts.id}" class="fab-wrap ${customClass}">
-      ${renderBtn(opts.btn)}
+    <div id=${id} class="fab-wrap ${btn.className || ""}">
+      ${renderBtn(btn)}
     </div>
   `;
 };
 
 const renderBtn = btn => {
-  btn.id = "fabbtn_" + _uid++;
-  const label = btn.label ? ` data-fab-label="${btn.label}"` : "";
+  btn.id = uid();
+  const label = btn.label ? ` data-fab-label=${btn.label}` : "";
   return `
-    <div id=${btn.id} class="fab-btn"${label}>
+    <a id=${btn.id} ${label}>
       ${btn.html}
-      ${btn.children ? renderChildren(btn.children) : ""}
-    </div>  
-  `;
-};
-
-const renderChildren = children => {
-  return `
-    <div class="fab-children">
-      ${children
-        .reverse()
-        .map(btn => renderBtn(btn))
-        .join("")}
-    </div>  
+    </a>  
+    ${btn.btns
+      ? `
+        <div class="fab-btns">
+          ${btn.btns
+            .reverse()
+            .map(renderBtn)
+            .join("")}
+        </div>  
+      `
+      : ""}    
   `;
 };
 
 const attachStyle = styles => {
-  const styleTag = document.createElement("style");
-  styleTag.innerHTML = styles;
-  document.head.appendChild(styleTag);
+  const s = document.createElement("style");
+  s.innerHTML = styles;
+  document.head.appendChild(s);
 };
 
 let _attached = false;
 let _uid = 0;
+const uid = () => "fab_" + _uid++;
 
 const attachCallback = btn => {
-  if (btn.fn) {
-    const add = type => {
-      document.getElementById(btn.id).addEventListener(type, e => {
-        btn.fn();
-        e.stopPropagation();
-      });
-    };
-    add("mousedown");
-    add("touchstart");
-  }
-  btn.children &&
-    btn.children.forEach(btn => {
-      attachCallback(btn);
+  btn.fn &&
+    document.getElementById(btn.id).addEventListener("click", e => {
+      btn.fn();
+      e.stopPropagation();
     });
+  btn.btns && btn.btns.forEach(attachCallback);
 };
 
-const init = opts => {
-  opts = Object.assign({}, DEFAULTS, opts);
+const create = (btn, theme) => {
   if (!_attached) {
     attachStyle(COMMON_CSS);
     _attached = true;
   }
-  opts.id = "fab_" + _uid++;
-  attachStyle(getCustomCSS(opts));
-  const html = render(opts);
-  document.body.insertAdjacentHTML("afterend", html);
-  attachCallback(opts.btn);
+  const id = uid();
 
-  const el = document.getElementById(opts.id);
+  const html = render(id, btn);
+  document.body.insertAdjacentHTML("afterend", html);
+  attachCallback(btn);
+
+  theme = Object.assign({}, THEME, theme);
+  attachStyle(getTheme(id, theme));
+
+  const el = document.getElementById(btn.id).parentNode;
   return {
     hide: () => {
       el.style.display = "none";
@@ -184,7 +105,7 @@ const init = opts => {
   };
 };
 
-exports.init = init;
+exports.create = create;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
