@@ -10,7 +10,8 @@ export default {
   plugins: [
     resolve(),
     scss({
-      output: "bin/fab.css"
+      output: "bin/fab.css",
+      outputStyle: "compressed"
     }),
     babel({
       babelrc: false,
