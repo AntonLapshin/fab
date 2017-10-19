@@ -11,21 +11,21 @@ const COMMON_CSS = `
   z-index: 999999;
   right: 0;
   bottom: 0; }
-  .fab-wrap > button {
+  .fab-wrap > a {
     margin-bottom: 0 !important; }
-  .fab-wrap button {
+  .fab-wrap a {
     height: 52px;
     width: 52px;
-    display: inline-block;
+    line-height: 52px;
+    display: block;
     border-radius: 50%;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.28);
     cursor: pointer;
     position: relative;
-    line-height: 52px;
     text-align: center;
     transition: all ease 0.2s;
     margin-bottom: -10px; }
-    .fab-wrap .fab-btn > svg {
+    .fab-wrap a > svg {
       position: absolute;
       margin: auto;
       left: 0;
@@ -33,14 +33,14 @@ const COMMON_CSS = `
       top: 0;
       bottom: 0;
       display: inline-block; }
-    .fab-wrap .fab-btn .fab-children {
+    .fab-wrap a .fab-btns {
       visibility: hidden;
       position: absolute;
       bottom: 100%;
       animation: 0.5s out;
       padding-bottom: 20px;
       margin-bottom: -20px; }
-    .fab-wrap .fab-btn:after {
+    .fab-wrap a:after {
       content: attr(data-fab-label);
       box-sizing: border-box;
       font-size: 14px;
@@ -54,10 +54,10 @@ const COMMON_CSS = `
       text-align: left;
       right: 50%;
       line-height: 52px; }
-    .fab-wrap .fab-btn:hover .fab-children {
+    .fab-wrap a:hover .fab-btns {
       visibility: visible;
       animation: 0.5s in; }
-    .fab-wrap .fab-btn:hover:after {
+    .fab-wrap a:hover:after {
       opacity: 1; }
 
 @keyframes in {
@@ -85,29 +85,29 @@ const THEME = {
   labelColor: "#3a3a3a"
 };
 
-const getTheme = theme => {
+const getTheme = (id, theme) => {
   return `
-#${theme.id} button {
+#${id} a {
   background: ${theme.bgColor};
   color: ${theme.color};
 }
-#${theme.id} buttonn:hover {
+#${id} a:hover {
   background: ${theme.hoverBgColor};
 }    
-#${theme.id} svg {
+#${id} svg {
   fill: ${theme.color};
 } 
-#${theme.id} button:after {
+#${id} a:after {
   background: ${theme.labelBgColor};
   color: ${theme.labelColor};
 }
 `;
 };
 
-const render = opts => {
+const render = btn => {
   return `
-    <div class="fab-wrap ${opts.className || ""}">
-      ${renderBtn(opts)}
+    <div class="fab-wrap ${btn.className || ""}">
+      ${renderBtn(btn)}
     </div>
   `;
 };
@@ -116,7 +116,7 @@ const renderBtn = btn => {
   btn.id = btn.id || uid();
   const label = btn.label ? ` data-fab-label=${btn.label}` : "";
   return `
-    <button id=${btn.id} ${label}>
+    <a id=${btn.id} ${label}>
       ${btn.html}
       ${btn.btns
         ? `
@@ -128,7 +128,7 @@ const renderBtn = btn => {
           </div>  
         `
         : ""}
-    </button>  
+    </a>  
   `;
 };
 
@@ -151,7 +151,7 @@ const attachCallback = btn => {
   btn.btns && btn.btns.forEach(attachCallback);
 };
 
-const init = (btn, theme) => {
+const create = (btn, theme) => {
   if (!_attached) {
     attachStyle(COMMON_CSS);
     _attached = true;
@@ -174,7 +174,7 @@ const init = (btn, theme) => {
   };
 };
 
-exports.init = init;
+exports.create = create;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

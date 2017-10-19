@@ -4,9 +4,9 @@
   z-index: 999999;
   right: 0;
   bottom: 0; }
-  .fab-wrap > button {
+  .fab-wrap > a {
     margin-bottom: 0 !important; }
-  .fab-wrap button {
+  .fab-wrap a {
     height: 52px;
     width: 52px;
     line-height: 52px;
@@ -18,7 +18,7 @@
     text-align: center;
     transition: all ease 0.2s;
     margin-bottom: -10px; }
-    .fab-wrap button > svg {
+    .fab-wrap a > svg {
       position: absolute;
       margin: auto;
       left: 0;
@@ -26,14 +26,14 @@
       top: 0;
       bottom: 0;
       display: inline-block; }
-    .fab-wrap button .fab-children {
+    .fab-wrap a .fab-btns {
       visibility: hidden;
       position: absolute;
       bottom: 100%;
       animation: 0.5s out;
       padding-bottom: 20px;
       margin-bottom: -20px; }
-    .fab-wrap button:after {
+    .fab-wrap a:after {
       content: attr(data-fab-label);
       box-sizing: border-box;
       font-size: 14px;
@@ -47,10 +47,10 @@
       text-align: left;
       right: 50%;
       line-height: 52px; }
-    .fab-wrap button:hover .fab-children {
+    .fab-wrap a:hover .fab-btns {
       visibility: visible;
       animation: 0.5s in; }
-    .fab-wrap button:hover:after {
+    .fab-wrap a:hover:after {
       opacity: 1; }
 
 @keyframes in {
