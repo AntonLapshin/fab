@@ -9,7 +9,7 @@ document.getElementById("code_snippet_1").innerText = `const icon = \`
   </svg>
 \`;
 
-const myFab = fab.init({
+const myFab = fab.create({
   label: "Home",
   html: icon,
   fn: () => {
@@ -64,7 +64,7 @@ const myFab = fab.create({
 });
 `;
 
-document.getElementById("code_snippet_3").innerText = `const myFab = fab.init({
+document.getElementById("code_snippet_3").innerText = `const myFab = fab.create({
   className: "my-class",
   theme: {
     bgColor: "#0083ca",

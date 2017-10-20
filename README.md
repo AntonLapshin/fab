@@ -28,7 +28,7 @@ const icon = `
   </svg>
 `;
 
-const myFab = fab.init({
+const myFab = fab.create({
   label: "Home",
   html: icon,
   fn: () => {
@@ -90,7 +90,7 @@ const myFab = fab.create({
 ### Theme
 
 ```js
-const myFab = fab.init({
+const myFab = fab.create({
   className: "my-class",
   theme: {
     bgColor: "#0083ca",
